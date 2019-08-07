@@ -1,28 +1,42 @@
-const ffmpeg = require('ffmpeg');
-const chalk = require('chalk');
+const cluster = require('cluster');
+let workers = [];
 
-function convertVideoToJPG(path, outputTo) {
-  const log = console.log;
-  try {
-    new ffmpeg(path, function (err, video) {
-      if (!err) {
-        video.fnExtractFrameToJPG(outputTo, {
-          every_n_frames: 30,
-          file_name: 'image_%t_%s'
-        }, function (error, files) {
-          if (error)
-            log(error);
-          if (!error)
-            log(chalk.bold.yellow('Video processing has been completed . . . '));
-        });
-      } else {
-        log('Error: ' + err);
-      }
+const numCPUs = require('os').cpus().length;
+
+if (cluster.isMaster) {
+  masterProcess();
+} else {
+  childProcess();
+}
+function masterProcess() {
+  console.log("Master proccess initiated");
+
+  for (let i = 0; i < numCPUs; i++) {
+    console.log(`Forking process number ${i}...`);
+    const worker = cluster.fork();
+    workers.push(worker);
+
+    worker.on('message', function (message) {
+      console.log(`Master ${process.pid} received a message`);
     });
-  } catch (e) {
-    log(e.code);
-    log(e.msg);
   }
+
+  //Send message to the workers.
+  workers.forEach(function (worker) {
+    worker.send({ msg: "Message from master" });
+  })
 }
 
-convertVideoToJPG(process.argv[2], process.argv[3]);
+function childProcess() {
+  console.log(`Worker ${process.pid} started`);
+
+  process.on('message', function (message) {
+    console.log(`Worker ${process.pid} recevies message '${JSON.stringify(message)}'`);
+  });
+
+  console.log(`Worker ${process.pid} sends message to master...`);
+  process.send({ msg: `Message from worker ${process.pid}` });
+
+  console.log(`Worker ${process.pid} finished`);
+}
+
