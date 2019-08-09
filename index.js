@@ -1,42 +1,15 @@
-const cluster = require('cluster');
-let workers = [];
+const { fork } = require('child_process');
+const forked = fork('childProcess.js');
+const chalk = require('chalk');
 
-const numCPUs = require('os').cpus().length;
+const log = console.log;
 
-if (cluster.isMaster) {
-  masterProcess();
-} else {
-  childProcess();
-}
-function masterProcess() {
-  console.log("Master proccess initiated");
+forked.on('message', ({ msg }) => {
+  log(chalk.bold.green(msg));
+  process.exit();
+});
 
-  for (let i = 0; i < numCPUs; i++) {
-    console.log(`Forking process number ${i}...`);
-    const worker = cluster.fork();
-    workers.push(worker);
+forked.send({ path: process.argv[2], outputTo: process.argv[3] });
 
-    worker.on('message', function (message) {
-      console.log(`Master ${process.pid} received a message`);
-    });
-  }
 
-  //Send message to the workers.
-  workers.forEach(function (worker) {
-    worker.send({ msg: "Message from master" });
-  })
-}
-
-function childProcess() {
-  console.log(`Worker ${process.pid} started`);
-
-  process.on('message', function (message) {
-    console.log(`Worker ${process.pid} recevies message '${JSON.stringify(message)}'`);
-  });
-
-  console.log(`Worker ${process.pid} sends message to master...`);
-  process.send({ msg: `Message from worker ${process.pid}` });
-
-  console.log(`Worker ${process.pid} finished`);
-}
 
