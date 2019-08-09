@@ -1,7 +1,6 @@
 const ffmpeg = require('ffmpeg');
-const chalk = require('chalk');
 
-function convertVideoToJPG(path, outputTo) {
+process.on('message', ({ path, outputTo }) => {
   const log = console.log;
   try {
     new ffmpeg(path, function (err, video) {
@@ -13,7 +12,7 @@ function convertVideoToJPG(path, outputTo) {
           if (error)
             log(error);
           if (!error)
-            log(chalk.bold.yellow('Video processing has been completed . . . '));
+            process.send({ msg: "Video Processing Completed . . ." })
         });
       } else {
         log('Error: ' + err);
@@ -23,6 +22,5 @@ function convertVideoToJPG(path, outputTo) {
     log(e.code);
     log(e.msg);
   }
-}
+})
 
-convertVideoToJPG(process.argv[2], process.argv[3]);
