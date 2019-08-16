@@ -1,7 +1,7 @@
 # Video2Image Converter
 
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![Build Status](https://travis-ci.com/MohammadHasham/video-to-image.svg?token=EUrtqHr57kNq5QATEWNf&branch=master)](https://travis-ci.com/MohammadHasham/video-to-image)
 
 Video2image converter is a wrapper built on top of ffmpeg module that convert a video to images at your desired FPS (30 FPS by default). 
 
