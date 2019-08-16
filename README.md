@@ -10,6 +10,11 @@ It uses Node.js to run the script. The script runs from a bash script that takes
  - Just run the script and follow the instructions.
 
 
+### Screenshots
+
+![Alt text](/images/script.png?raw=true "Bash Script")
+![Alt text](/images/pics.png?raw=true "Result")
+
 ### Tech
 
  - Node

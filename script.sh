@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo Lets convert a video to many images 🦄 🦄 🦄 . . .
 sudo apt-get install ffmpeg
 sudo apt-get autoremove
@@ -19,6 +20,6 @@ then
  echo Enter FPS
  read fps
 fi
-
+echo Wait 🤚 🤚 🤚
 
 node index.js $videoPath $destFolderPath $fps
