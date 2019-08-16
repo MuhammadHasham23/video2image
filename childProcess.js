@@ -1,12 +1,12 @@
 const ffmpeg = require('ffmpeg');
 
-process.on('message', ({ path, outputTo }) => {
+process.on('message', ({ path, outputTo, fps }) => {
   const log = console.log;
   try {
     new ffmpeg(path, function (err, video) {
       if (!err) {
         video.fnExtractFrameToJPG(outputTo, {
-          every_n_frames: 30,
+          every_n_frames: fps,
           file_name: 'image_%t_%s'
         }, function (error, files) {
           if (error)

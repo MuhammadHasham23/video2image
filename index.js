@@ -9,7 +9,7 @@ forked.on('message', ({ msg }) => {
   process.exit();
 });
 
-forked.send({ path: process.argv[2], outputTo: process.argv[3] });
+forked.send({ path: process.argv[2], outputTo: process.argv[3], fps: process.argv[4] });
 
 
 
