@@ -13,6 +13,10 @@ It uses Node.js to run the script. The script runs from a bash script that takes
 ### Screenshots
 
 ![Alt text](/images/script.png?raw=true "Bash Script")
+
+The results in destination folder as: 
+
+
 ![Alt text](/images/pics.png?raw=true "Result")
 
 ### Tech
