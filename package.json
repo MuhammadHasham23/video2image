@@ -5,11 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "chalk": "^2.4.2",
-    "ffmpeg": "0.0.4"
+    "ffmpeg": "0.0.4",
+    "mocha": "^6.2.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node index.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
